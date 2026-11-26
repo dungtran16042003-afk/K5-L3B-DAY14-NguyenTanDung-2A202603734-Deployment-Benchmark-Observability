@@ -29,6 +29,9 @@ ENV PATH=/home/agent/.local/bin:$PATH
 ENV PYTHONPATH=/app
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
+# Home của user agent là /app nhưng thư viện nằm ở /home/agent/.local:
+# chỉ cho Python đúng chỗ, nếu thiếu dòng này container crash "No module named 'uvicorn'"
+ENV PYTHONUSERBASE=/home/agent/.local
 
 EXPOSE 8000
 

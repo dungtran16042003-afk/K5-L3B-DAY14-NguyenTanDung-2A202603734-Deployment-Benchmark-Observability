@@ -1,0 +1,22 @@
+Thời điểm (UTC): 2026-11-26 10:16:39
+log: 6171 llm_call, 58 llm_error
+=== TRACE CHẬM NHẤT (theo llm_ms trong log)
+trace_id: 709924714f8dffc6be5761e88fab16c9
+  POST /ask                      1712.1 ms (100.0%)
+  agent.run                      1710.6 ms ( 99.9%)
+  agent.retrieve_context           14.8 ms (  0.9%)
+  chat mock-llm-small            1695.7 ms ( 99.0%)
+log cùng trace_id:
+  {"ts": "2026-11-26T10:16:33.342436+00:00", "level": "INFO", "service": "observable-agent", "instance": "9f6115a34ff6", "event": "llm_call", "trace_id": "709924714f8dffc6be5761e88fab16c9", "span_id": "1c6a752d8b0cd1ae", "request_id": "1294d9f27fdd", "model": "mock-llm-small", "agent_version": "v2", "input_tokens": 83, "output_tokens": 44, "cost_usd": 3.9e-05, "llm_ms": 1695.6}
+  {"ts": "2026-11-26T10:16:33.342722+00:00", "level": "INFO", "service": "observable-agent", "instance": "9f6115a34ff6", "event": "http_request", "trace_id": "709924714f8dffc6be5761e88fab16c9", "span_id": "1c6a752d8b0cd1ae", "request_id": "1294d9f27fdd", "method": "POST", "route": "/ask", "status": 200, "ms": 1711.7}
+link: http://localhost:16686/trace/709924714f8dffc6be5761e88fab16c9
+=== TRACE LỖI (llm_error gần nhất)
+trace_id: 52d821e27e24f3042ee3db0c284e94d2
+  POST /ask                       109.0 ms (100.0%)  ERROR
+  agent.run                       107.7 ms ( 98.8%)  ERROR  events=[('exception', {'exception.message': 'Upstream LLM error: 503 Service Unavailable (mock)', 'exception.type': 'utils.mock_llm.LLMError'})]
+  agent.retrieve_context           15.2 ms ( 14.0%)
+  chat mock-llm-small              92.2 ms ( 84.6%)  ERROR  events=[('exception', {'exception.message': 'Upstream LLM error: 503 Service Unavailable (mock)', 'exception.type': 'utils.mock_llm.LLMError'})]
+log cùng trace_id:
+  {"ts": "2026-11-26T10:16:36.525811+00:00", "level": "INFO", "service": "observable-agent", "instance": "9f6115a34ff6", "event": "llm_error", "trace_id": "52d821e27e24f3042ee3db0c284e94d2", "span_id": "5d867171c232f2b3", "request_id": "77d808303432", "error": "Upstream LLM error: 503 Service Unavailable (mock)"}
+  {"ts": "2026-11-26T10:16:36.526049+00:00", "level": "INFO", "service": "observable-agent", "instance": "9f6115a34ff6", "event": "http_request", "trace_id": "52d821e27e24f3042ee3db0c284e94d2", "span_id": "5d867171c232f2b3", "request_id": "77d808303432", "method": "POST", "route": "/ask", "status": 503, "ms": 108.6}
+link: http://localhost:16686/trace/52d821e27e24f3042ee3db0c284e94d2

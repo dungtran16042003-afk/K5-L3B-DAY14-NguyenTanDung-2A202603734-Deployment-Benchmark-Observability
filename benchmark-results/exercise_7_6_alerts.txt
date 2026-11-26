@@ -1,0 +1,78 @@
+Baseline trước khi đổi (2026-11-26 10:26:07 UTC), Locust 30 users, 2 instance
+  alerts: LLMCostBurnRateHigh=firing
+  error rate=0.0083 p95(s)=0.2916 avg(s)=0.2265 cost(USD/h)=2.3373
+== A: MOCK_ERROR_RATE=0.2 | đổi cấu hình lúc 10:26:07 UTC
+AGENT_VERSION=v2 LLM_MODEL=mock-llm-small MOCK_SLOW_RATE=0.03 MOCK_ERROR_RATE=0.2 
+  AgentHighErrorRate FIRING sau 91s (lúc 10:27:38 UTC)
+  alerts: AgentHighErrorRate=firing LLMCostBurnRateHigh=firing
+  error rate=0.1819 p95(s)=0.288 avg(s)=0.2007 cost(USD/h)=2.1114
+== B: thêm MOCK_SLOW_RATE=0.3 (A vẫn bật) | đổi cấu hình lúc 10:27:38 UTC
+AGENT_VERSION=v2 LLM_MODEL=mock-llm-small MOCK_SLOW_RATE=0.3 MOCK_ERROR_RATE=0.2 
+  AgentHighLatencyP95 FIRING sau 154s (lúc 10:30:12 UTC)
+  alerts: AgentHighErrorRate=firing AgentHighLatencyP95=firing
+  error rate=0.1909 p95(s)=1.8878 avg(s)=0.5412 cost(USD/h)=1.6525
+  sau B: AgentHighErrorRate=firing AgentHighLatencyP95=firing
+
+== Trả cấu hình về mặc định lúc 10:40:04 UTC, giảm Locust còn 10 users cho thí nghiệm C
+  (lý do: với 30 users, LLMCostBurnRateHigh đã firing ngay ở baseline model nhỏ, khoảng 2.3 USD/giờ)
+  chờ alert tắt 57s → (không có)
+  baseline 10 users:
+  alerts: (không có)
+  error rate=0.0059 p95(s)=0.2969 req/s=5.8175 cost(USD/h)=1.1064
+  tokens/s=686.888 retrieval hit/s=5.7788 instance up=2.0
+== C: LLM_MODEL=mock-llm-large | đổi cấu hình lúc 10:42:39 UTC (10 users)
+  LLMCostBurnRateHigh FIRING sau 173s (lúc 10:45:32 UTC)
+  alerts: LLMCostBurnRateHigh=firing
+  error rate=0.0147 p95(s)=0.7437 req/s=4.9061 cost(USD/h)=6.1297
+  tokens/s=578.1758 retrieval hit/s=4.9254 instance up=2.0
+== Trả về model nhỏ, 30 users, lúc 10:45:33 UTC
+  alerts: LLMCostBurnRateHigh=firing
+== D: docker pause k5-day14-observability-agent-1 | lúc 10:46:37 UTC
+  AgentInstanceDown FIRING sau 45s (lúc 10:47:22 UTC)
+  alerts: AgentInstanceDown=firing LLMCostBurnRateHigh=firing
+  error rate=0.0134 p95(s)=0.2933 req/s=17.1334 cost(USD/h)=6.7591
+  tokens/s=2034.655 retrieval hit/s=17.1157 instance up=1.0
+  Locust từ lúc pause: requests=36427 failures=3455
+   - /ask | HTTPError('503 Server Error: Service Unavailable for url: /ask') | x 2593
+   - /ask | HTTPError('502 Server Error: Bad Gateway for url: /ask') | x 763
+   - /health | HTTPError('502 Server Error: Bad Gateway for url: /health') | x 68
+   - /ask | HTTPError('504 Server Error: Gateway Time-out for url: /ask') | x 31
+  unpause lúc 10:47:53 UTC
+== Chờ mọi alert tắt trước thí nghiệm E (giảm về 10 users để cost alert không tự bật)
+== GHI CHÚ (tạm dừng khoảng 10:55 UTC)
+  Số "requests / failures" của Locust ở thí nghiệm D là cộng dồn cả phiên tải (lệnh reset thống kê không có tác dụng),
+  KHÔNG phải riêng thời gian pause. Thí nghiệm E và benchmark scale chưa chạy.
+
+== (Sau khi khởi động lại máy) D đo lại lúc 12:48:34 UTC — Locust 30 users, 2 instance, thống kê Locust tính từ đầu phiên tải mới
+  baseline:
+  alerts: (không có)
+  error rate=0.0075 p95(s)=0.2938 req/s=17.8912 cost(USD/h)=0.7056
+  tokens/s=2112.5304 retrieval hit/s=17.8337 instance up=2.0
+  Locust trước khi pause (requests failures): 1784 15
+  docker pause k5-day14-observability-agent-1 lúc 12:50:08 UTC
+  AgentInstanceDown FIRING sau 34s (lúc 12:50:42 UTC)
+  alerts: AgentInstanceDown=firing
+  error rate=0.0074 p95(s)=0.2916 req/s=15.5921 cost(USD/h)=1.0857
+  tokens/s=1854.7159 retrieval hit/s=15.6304 instance up=1.0
+  agent tự đếm số response 504 trong 2 phút: n/a (n/a = không có series nào)
+  Locust trong thời gian pause: requests=1015 failures=35
+   - (cả phiên) /ask | HTTPError('503 Server Error: Service Unavailable for url: /ask') | x 21
+   - (cả phiên) /ask | HTTPError('504 Server Error: Gateway Time-out for url: /ask') | x 29
+  unpause lúc 12:51:14 UTC
+== Giảm về 10 users, chờ mọi alert tắt trước thí nghiệm E
+  chờ alert tắt 5s → (không có)
+  baseline v2 (10 users):
+  alerts: (không có)
+  error rate=0.0127 p95(s)=0.2968 req/s=5.952 cost(USD/h)=1.3999
+  tokens/s=702.6698 retrieval hit/s=5.9346 instance up=2.0
+== E: AGENT_VERSION=v1 | đổi cấu hình lúc 12:52:55 UTC (10 users)
+  alert xuất hiện trong 240s theo dõi: (không có)
+  error rate=0.0061 p95(s)=0.1986 req/s=6.1301 cost(USD/h)=0.425
+  tokens/s=342.9834 retrieval hit/s=n/a instance up=2.0
+  agent_info: [({'model': 'mock-llm-small', 'version': 'v1'}, '2')]
+  Eval chạy vào stack đang là v1 (qua Nginx), so với baseline v2 đã sửa:
+     Accuracy      : 4.3%  (1/23)
+     ⚠️  Câu bị regression : 22 ['docker-01', 'docker-02', 'probe-01', 'probe-02', 'reliability-01', 'conf
+     Quality gate (accuracy ≥ 80%, không regression): ❌ FAIL
+  exit code eval: 1
+== Trả cấu hình về mặc định lúc 12:57:12 UTC

@@ -44,14 +44,14 @@ Bản develop nhận `question` qua query string nên gửi JSON bị 422.
 
 ### Exercise 1.3: Comparison table
 
-| Feature | Develop | Production | Why Important? |
-|---------|---------|------------|----------------|
-| Config | Hằng số trong code | `config.py` đọc biến môi trường, dừng ngay nếu production thiếu `AGENT_API_KEY` | Cùng một code chạy được ở dev/staging/prod, secret không vào git |
-| Health check | Không có (404) | `/health` (liveness) và `/ready` (readiness) | Nền tảng biết khi nào restart, khi nào được chuyển traffic vào |
-| Logging | `print`, lộ API key | `logging` dạng JSON, chỉ ghi độ dài câu hỏi | Lọc và phân tích được, không lộ dữ liệu nhạy cảm |
-| Shutdown | Không xử lý gì thêm | `lifespan` và handler SIGTERM | Đóng kết nối, hạ readiness, không cắt ngang request khi deploy bản mới |
-| Địa chỉ, cổng | `127.0.0.1:8000` cố định | `0.0.0.0` và `PORT` từ env | Chạy được trong container và trên cloud |
-| Input | Query string, không kiểm tra | JSON body, rỗng thì 422 | Báo lỗi rõ ràng, câu hỏi không nằm trên URL |
+| Feature           | Develop                        | Production                                                                                   | Why Important?                                                                  |
+| ----------------- | ------------------------------ | -------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------- |
+| Config            | Hằng số trong code           | `config.py` đọc biến môi trường, dừng ngay nếu production thiếu `AGENT_API_KEY` | Cùng một code chạy được ở dev/staging/prod, secret không vào git       |
+| Health check      | Không có (404)               | `/health` (liveness) và `/ready` (readiness)                                            | Nền tảng biết khi nào restart, khi nào được chuyển traffic vào        |
+| Logging           | `print`, lộ API key         | `logging` dạng JSON, chỉ ghi độ dài câu hỏi                                         | Lọc và phân tích được, không lộ dữ liệu nhạy cảm                   |
+| Shutdown          | Không xử lý gì thêm       | `lifespan` và handler SIGTERM                                                             | Đóng kết nối, hạ readiness, không cắt ngang request khi deploy bản mới |
+| Địa chỉ, cổng | `127.0.0.1:8000` cố định  | `0.0.0.0` và `PORT` từ env                                                             | Chạy được trong container và trên cloud                                   |
+| Input             | Query string, không kiểm tra | JSON body, rỗng thì 422                                                                    | Báo lỗi rõ ràng, câu hỏi không nằm trên URL                            |
 
 Ví dụ anti-pattern đã được sửa: `develop/app.py:51` dùng `host="localhost"`, còn `production/app.py` dùng `host=settings.host` (mặc định `0.0.0.0`). Chạy thật thấy `0.0.0.0:8000` và `GET /health`, `GET /ready` đều trả 200.
 
@@ -95,7 +95,6 @@ my-agent:develop    d9af583897cc       1.67GB          426MB
 - Develop: **1670 MB**
 - Production: **240 MB**
 - Difference: **giảm khoảng 85,6%** (theo `DISK USAGE`; theo kích thước nén là khoảng 86,5%)
-
 - **Stage 1 (builder):** từ `python:3.11-slim`, cài `gcc`, `libpq-dev`, rồi `pip install --user` vào `/root/.local`.
 - **Stage 2 (runtime):** bắt đầu lại từ `python:3.11-slim`, chỉ copy thư viện đã cài và code, chạy bằng user `appuser`.
 - **Vì sao nhỏ hơn:** phần giảm lớn đến từ base `slim` thay cho bản đầy đủ; multi-stage giữ compiler và file tạm lại ở builder. Kiểm tra trong container: bản develop có `/usr/bin/gcc` và chạy bằng `root`, bản advanced không có `gcc` và chạy bằng `appuser`.
@@ -156,13 +155,13 @@ Hai điều gặp khi deploy:
 
 So `06-lab-complete/railway.toml` với `03-cloud-deployment/render/render.yaml`.
 
-| Điểm | `railway.toml` | `render.yaml` | Vì sao khác |
-|---|---|---|---|
-| Phạm vi | Cách build và deploy **một** service | Blueprint khai báo **nhiều** service (web và Redis) | Render mô tả cả hạ tầng trong file; Railway tạo thêm Redis trên dashboard hoặc CLI |
-| Cách build | `builder = "DOCKERFILE"` | Bản mẫu dùng `runtime: python` với `buildCommand`, `startCommand` | Mình dùng Dockerfile nên lệnh chạy nằm trong `CMD`; bản mẫu để Render tự dựng môi trường Python |
-| Health check | `healthcheckPath = "/health"` | `healthCheckPath: /health` | Cùng ý nghĩa, khác tên khoá |
-| Biến môi trường, secret | Không nằm trong file, đặt trên Railway | Khai báo trong `envVars`, secret dùng `sync: false` hoặc `generateValue: true` | Cả hai đều không ghi giá trị secret vào git |
-| Restart, region, plan | Có `restartPolicyType`; file không ghi region, plan | Có `region`, `plan`, `autoDeploy` | Mỗi nền tảng cho cấu hình qua file ở mức khác nhau |
+| Điểm                      | `railway.toml`                                        | `render.yaml`                                                                         | Vì sao khác                                                                                                    |
+| --------------------------- | ------------------------------------------------------- | --------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------- |
+| Phạm vi                    | Cách build và deploy **một** service           | Blueprint khai báo **nhiều** service (web và Redis)                            | Render mô tả cả hạ tầng trong file; Railway tạo thêm Redis trên dashboard hoặc CLI                      |
+| Cách build                 | `builder = "DOCKERFILE"`                              | Bản mẫu dùng `runtime: python` với `buildCommand`, `startCommand`             | Mình dùng Dockerfile nên lệnh chạy nằm trong `CMD`; bản mẫu để Render tự dựng môi trường Python |
+| Health check                | `healthcheckPath = "/health"`                         | `healthCheckPath: /health`                                                            | Cùng ý nghĩa, khác tên khoá                                                                                |
+| Biến môi trường, secret | Không nằm trong file, đặt trên Railway             | Khai báo trong `envVars`, secret dùng `sync: false` hoặc `generateValue: true` | Cả hai đều không ghi giá trị secret vào git                                                               |
+| Restart, region, plan       | Có `restartPolicyType`; file không ghi region, plan | Có `region`, `plan`, `autoDeploy`                                                | Mỗi nền tảng cho cấu hình qua file ở mức khác nhau                                                       |
 
 ### Exercise 3.3: Pipeline Cloud Run
 
@@ -363,15 +362,15 @@ Chạy đầy đủ trong WSL2 (`os.name = posix`) với Docker.
 
 ### Tự kiểm tra xử lý lỗi (stack Compose)
 
-| Trường hợp | Mã trả về |
-|---|---|
-| Không key / sai key | 401 |
-| Thiếu `question`, rỗng, chỉ dấu cách, sai kiểu, dài 2001 ký tự | 422 |
-| JSON hỏng, body trống, body là mảng | 422 |
-| Byte không phải UTF-8 trong body JSON | 400 |
-| Sai method / URL không tồn tại | 405 / 404 |
-| Vượt 10 request/phút | 429, `Retry-After: 59` |
-| Dừng Redis: `/health`, `/ready`, `/ask` | 200, 503, 503 |
+| Trường hợp                                                             | Mã trả về             |
+| ------------------------------------------------------------------------- | ------------------------ |
+| Không key / sai key                                                      | 401                      |
+| Thiếu `question`, rỗng, chỉ dấu cách, sai kiểu, dài 2001 ký tự | 422                      |
+| JSON hỏng, body trống, body là mảng                                   | 422                      |
+| Byte không phải UTF-8 trong body JSON                                   | 400                      |
+| Sai method / URL không tồn tại                                         | 405 / 404                |
+| Vượt 10 request/phút                                                   | 429, `Retry-After: 59` |
+| Dừng Redis: `/health`, `/ready`, `/ask`                            | 200, 503, 503            |
 
 Log của agent trong lần thử: 0 dòng `Traceback`, 0 lần xuất hiện API key. `docker compose stop` mất 0,7 giây, exit code 0.
 
@@ -384,11 +383,12 @@ Log của agent trong lần thử: 0 dòng `Traceback`, 0 lần xuất hiện AP
 
 AI dùng: Claude Code (chạy lệnh và sửa file trực tiếp trên máy). Ban đầu làm theo kiểu hướng dẫn từng bước, sau đó giao cho AI làm tiếp các phần chạy được trên máy.
 
-| Phần | Mình hỏi gì | Nhận được gì | Mình tự sửa và tự kiểm tra thế nào |
-|---|---|---|---|
-| Chuẩn bị | Cài Docker, tóm tắt yêu cầu và phạm vi bài | Cài WSL2 Ubuntu, Docker Desktop, môi trường Python; bảng nhiệm vụ theo CP | *(tự điền)* |
-| Part 1, 2, 4, 5 | Làm tiếp các phần | AI chạy các ví dụ, lấy output và số đo, **soạn toàn bộ câu trả lời** | *(tự điền)* |
-| Part 3 (phần đọc file) | Làm tiếp các phần | AI soạn bảng so sánh cấu hình và mô tả pipeline Cloud Run | *(tự điền)* |
-| Part 6 | Làm tiếp các phần | AI **viết code** trong `app/`, `Dockerfile`, `.dockerignore`, `docker-compose.yml`, `.env.example`, `railway.toml`; chạy script chấm và thử lỗi | *(tự điền)* |
-| Part 7 (7.1–7.3) | Làm tiếp các phần | AI thêm metric, chạy load test và eval, sửa `KNOWLEDGE_BASE`, **soạn** `BENCHMARK_REPORT.md` mục 1–3 | *(tự điền)* |
-| Part 3, deploy | Test lại, push và deploy | Mình đăng nhập Railway; AI tạo project và Redis, đặt biến môi trường, deploy, sửa cổng domain và health check, kiểm tra URL, **soạn** `DEPLOYMENT.md` | *(tự điền)* |
+| Phần                     | Mình hỏi gì                                     | Nhận được gì                                                                                                                                                              | Mình tự sửa và tự kiểm tra thế nào                                                                                                                                            |
+| ------------------------- | -------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Chuẩn bị                | Cài Docker, tóm tắt yêu cầu và phạm vi bài | Cài WSL2 Ubuntu, Docker Desktop, môi trường Python; bảng nhiệm vụ theo CP                                                                                               | Tự đăng nhập Docker Desktop bằng tài khoản GitHub                                                                                                                              |
+| Part 1, 2, 4, 5           | Làm tiếp các phần                              | AI chạy các ví dụ, lấy output và số đo, **soạn toàn bộ câu trả lời**                                                                                       | Đối chiếu số dòng anti-pattern; xem dung lượng image 1.67GB và 240MB; đọc code thấy giới hạn 10 request/phút                                                            |
+| Part 3 (phần đọc file) | Làm tiếp các phần                              | AI soạn bảng so sánh cấu hình và mô tả pipeline Cloud Run                                                                                                              | So hai file cấu hình; đếm đúng 4 bước test, build, push, deploy                                                                                                               |
+| Part 6                    | Làm tiếp các phần                              | AI **viết code** trong `app/`, `Dockerfile`, `.dockerignore`, `docker-compose.yml`, `.env.example`, `railway.toml`; chạy script chấm và thử lỗi        | Đọc code, hiểu khi nào trả 401, 429, 402                                                                                                                                         |
+| Part 7 (7.1–7.3)         | Làm tiếp các phần                              | AI thêm metric, chạy load test và eval, sửa `KNOWLEDGE_BASE`, **soạn** `BENCHMARK_REPORT.md` mục 1–3                                                          | So p95 trong JSON với báo cáo; xem hai tài liệu thêm vào knowledge base                                                                                                        |
+| Part 3, deploy            | Test lại, push và deploy                         | Mình đăng nhập Railway; AI tạo project và Redis, đặt biến môi trường, deploy, sửa cổng domain và health check, thêm trang gốc `/` vào app, kiểm tra URL, **soạn** `DEPLOYMENT.md` | Tự đăng nhập Railway bằng GitHub, tự chạy script và thấy 200, 200, 401, 200. Mở `/health` trên trình duyệt, báo lỗi khi mở trang để sửa, chụp 3 ảnh phần này |
+| Part 7 (7.4–7.7) | Bật Grafana và làm tiếp | AI sửa Dockerfile mẫu, bật stack, tạo tải, chạy thí nghiệm cảnh báo và đo scale, chỉ đúng trace cần chụp, **soạn** `BENCHMARK_REPORT.md` mục 4–6 | *(tự điền)* |

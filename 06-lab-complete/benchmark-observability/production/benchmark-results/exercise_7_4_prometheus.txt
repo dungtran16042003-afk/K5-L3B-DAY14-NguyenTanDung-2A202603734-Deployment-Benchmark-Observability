@@ -1,0 +1,13 @@
+Thời điểm (UTC): 2026-11-26 10:13:22
+Instance agent up: 2
+latency p50 (ms): 173
+latency p95 (ms): 293
+latency p99 (ms): 1834
+latency avg (ms): 233
+req/s tổng: 17.93
+req/s 172.18.0.6:8000: 8.87
+req/s 172.18.0.7:8000: 9.07
+error rate: 1.22%
+tokens/s input: 1392
+tokens/s output: 735
+GET http://localhost:8080/metrics -> 404

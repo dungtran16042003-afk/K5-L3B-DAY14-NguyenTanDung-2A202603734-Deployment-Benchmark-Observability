@@ -1,0 +1,27 @@
+== scale agent=1 | bắt đầu 12:57:49 UTC | instance up trước khi chạy: 1.0
+  docker stats giữa lượt chạy:
+k5-day14-observability-agent-1 cpu=13.62% mem=69.54MiB / 256MiB
+k5-day14-observability-nginx-1 cpu=1.61% mem=5.629MiB / 7.608GiB
+  instance up giữa lượt: 1.0
+  LLM p95(s)=0.1977 HTTP p95(s) phía agent=0.2921 in-flight=18.0
+  locust exit code: 1 (1 = có request lỗi)
+== scale agent=3 | bắt đầu 13:00:32 UTC | instance up trước khi chạy: 3.0
+  docker stats giữa lượt chạy:
+k5-day14-observability-agent-1 cpu=5.52% mem=69.38MiB / 256MiB
+k5-day14-observability-agent-2 cpu=6.31% mem=56.5MiB / 256MiB
+k5-day14-observability-agent-3 cpu=9.16% mem=56.71MiB / 256MiB
+k5-day14-observability-nginx-1 cpu=1.65% mem=5.98MiB / 7.608GiB
+  instance up giữa lượt: 3.0
+  LLM p95(s)=0.1984 HTTP p95(s) phía agent=0.2944 in-flight=15.0
+  locust exit code: 1 (1 = có request lỗi)
+== CSV (dòng Aggregated)
+  benchmark-results/scale_1_stats.csv
+Type,Name,Request Count,Failure Count,Median Response Time,Average Response Time,Min Response Time,Max Response Time,Average Content Size,Requests/s,Failures/s,50%,66%,75%,80%,90%,95%,98%,99%,99.9%,99.99%,100%
+,Aggregated,7921,84,190,209.0754683447791,0.948526000001948,1728.8728180000135,381.10503724277237,63.81143340221992,0.6767024877902378,190,200,200,210,220,220,1700,1700,1700,1700,1700
+POST,/ask,7180,84,190,230.39708620389948,90.33764900004826,1728.8728180000135,412.1800835654596,57.841950742070324,0.6767024877902378,190,200,210,210,220,220,1700,1700,1700,1700,1700
+GET,/health,741,0,2,2.4773357827234146,0.948526000001948,70.82250100006604,80.0,5.969482660149597,0.0,2,2,2,3,3,4,11,14,71,71,71
+  benchmark-results/scale_3_stats.csv
+Type,Name,Request Count,Failure Count,Median Response Time,Average Response Time,Min Response Time,Max Response Time,Average Content Size,Requests/s,Failures/s,50%,66%,75%,80%,90%,95%,98%,99%,99.9%,99.99%,100%
+,Aggregated,7903,65,190,215.30554103416432,1.022992000002887,1759.5189589999336,383.9753258256358,62.776306920309864,0.5163178476300317,190,200,200,210,210,220,1700,1700,1700,1800,1800
+POST,/ask,7204,65,190,236.0086028678514,85.6092600000693,1759.5189589999336,413.4698778456413,57.22390422041152,0.5163178476300317,190,200,210,210,220,220,1700,1700,1700,1800,1800
+GET,/health,699,0,2,1.9366462560814988,1.022992000002887,16.123091999929784,80.0,5.552402699898342,0.0,2,2,2,2,3,3,4,8,16,16,16

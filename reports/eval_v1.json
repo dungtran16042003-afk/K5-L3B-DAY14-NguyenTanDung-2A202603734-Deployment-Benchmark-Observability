@@ -1,19 +1,19 @@
 {
   "target": "http://localhost:8001",
   "agent_version": "v1",
-  "dataset": "/mnt/d/File Download Google/VIN/26-11/K5-L3B-DAY14-NguyenTanDung-2A202603734-Deployment-Benchmark-Observability/06-lab-complete/benchmark-observability/develop/eval/golden_dataset.jsonl",
+  "dataset": "eval/golden_dataset.jsonl",
   "total": 23,
   "passed": 1,
   "accuracy": 0.0435,
   "avg_score": 0.0578,
   "errors": 0,
   "latency_ms": {
-    "p50": 151.8,
-    "p95": 183.2
+    "p50": 163.1,
+    "p95": 189.1
   },
-  "total_cost_usd": 0.000399,
-  "avg_tokens": 56.7,
-  "cost_per_correct_usd": 0.00039915,
+  "total_cost_usd": 0.000411,
+  "avg_tokens": 57.6,
+  "cost_per_correct_usd": 0.00041115,
   "by_category": {
     "benchmark": {
       "total": 3,
@@ -63,7 +63,7 @@
       "passed": true,
       "score": 1.0,
       "missing_keywords": [],
-      "latency_ms": 142.2,
+      "latency_ms": 146.5,
       "cost_usd": 1.59e-05,
       "tokens": 49,
       "agent_version": "v1",
@@ -78,7 +78,7 @@
         "dependencies",
         "môi trường"
       ],
-      "latency_ms": 164.0,
+      "latency_ms": 150.5,
       "cost_usd": 1.65e-05,
       "tokens": 56,
       "agent_version": "v1",
@@ -94,7 +94,7 @@
         "runtime",
         "nhỏ hơn"
       ],
-      "latency_ms": 184.1,
+      "latency_ms": 160.3,
       "cost_usd": 1.65e-05,
       "tokens": 56,
       "agent_version": "v1",
@@ -109,11 +109,11 @@
         "còn sống",
         "restart"
       ],
-      "latency_ms": 142.3,
-      "cost_usd": 1.935e-05,
-      "tokens": 57,
+      "latency_ms": 168.4,
+      "cost_usd": 1.515e-05,
+      "tokens": 50,
       "agent_version": "v1",
-      "answer": "Đây là câu trả lời từ AI agent (mock). Trong production, đây sẽ là response từ OpenAI/Anthropic."
+      "answer": "Tôi là AI agent được deploy lên cloud. Câu hỏi của bạn đã được nhận."
     },
     {
       "id": "probe-02",
@@ -125,11 +125,11 @@
         "traffic",
         "không restart"
       ],
-      "latency_ms": 133.2,
-      "cost_usd": 1.56e-05,
-      "tokens": 53,
+      "latency_ms": 156.7,
+      "cost_usd": 1.98e-05,
+      "tokens": 60,
       "agent_version": "v1",
-      "answer": "Tôi là AI agent được deploy lên cloud. Câu hỏi của bạn đã được nhận."
+      "answer": "Đây là câu trả lời từ AI agent (mock). Trong production, đây sẽ là response từ OpenAI/Anthropic."
     },
     {
       "id": "reliability-01",
@@ -141,11 +141,11 @@
         "in-flight",
         "request mới"
       ],
-      "latency_ms": 189.7,
-      "cost_usd": 1.755e-05,
-      "tokens": 57,
+      "latency_ms": 184.1,
+      "cost_usd": 1.995e-05,
+      "tokens": 61,
       "agent_version": "v1",
-      "answer": "Câu hỏi hay! Điều này phụ thuộc vào kiến trúc hệ thống và yêu cầu cụ thể của bạn."
+      "answer": "Đây là câu trả lời từ AI agent (mock). Trong production, đây sẽ là response từ OpenAI/Anthropic."
     },
     {
       "id": "config-01",
@@ -156,11 +156,11 @@
         "biến môi trường",
         "hardcode"
       ],
-      "latency_ms": 175.6,
-      "cost_usd": 1.575e-05,
-      "tokens": 54,
+      "latency_ms": 143.2,
+      "cost_usd": 1.755e-05,
+      "tokens": 57,
       "agent_version": "v1",
-      "answer": "Tôi là AI agent được deploy lên cloud. Câu hỏi của bạn đã được nhận."
+      "answer": "Câu hỏi hay! Điều này phụ thuộc vào kiến trúc hệ thống và yêu cầu cụ thể của bạn."
     },
     {
       "id": "security-01",
@@ -171,7 +171,7 @@
         "429",
         "retry-after"
       ],
-      "latency_ms": 153.9,
+      "latency_ms": 147.6,
       "cost_usd": 1.605e-05,
       "tokens": 56,
       "agent_version": "v1",
@@ -187,11 +187,11 @@
         "hết hạn",
         "chữ ký"
       ],
-      "latency_ms": 168.6,
-      "cost_usd": 1.71e-05,
-      "tokens": 54,
+      "latency_ms": 141.8,
+      "cost_usd": 1.95e-05,
+      "tokens": 58,
       "agent_version": "v1",
-      "answer": "Câu hỏi hay! Điều này phụ thuộc vào kiến trúc hệ thống và yêu cầu cụ thể của bạn."
+      "answer": "Đây là câu trả lời từ AI agent (mock). Trong production, đây sẽ là response từ OpenAI/Anthropic."
     },
     {
       "id": "scaling-01",
@@ -203,7 +203,7 @@
         "session",
         "load balancer"
       ],
-      "latency_ms": 168.0,
+      "latency_ms": 189.4,
       "cost_usd": 1.56e-05,
       "tokens": 53,
       "agent_version": "v1",
@@ -218,11 +218,11 @@
         "round-robin",
         "instance"
       ],
-      "latency_ms": 148.6,
-      "cost_usd": 1.785e-05,
-      "tokens": 59,
+      "latency_ms": 185.3,
+      "cost_usd": 2.025e-05,
+      "tokens": 63,
       "agent_version": "v1",
-      "answer": "Câu hỏi hay! Điều này phụ thuộc vào kiến trúc hệ thống và yêu cầu cụ thể của bạn."
+      "answer": "Đây là câu trả lời từ AI agent (mock). Trong production, đây sẽ là response từ OpenAI/Anthropic."
     },
     {
       "id": "scaling-03",
@@ -234,11 +234,11 @@
         "memory",
         "custom metrics"
       ],
-      "latency_ms": 161.4,
-      "cost_usd": 1.575e-05,
-      "tokens": 54,
+      "latency_ms": 173.6,
+      "cost_usd": 1.995e-05,
+      "tokens": 61,
       "agent_version": "v1",
-      "answer": "Tôi là AI agent được deploy lên cloud. Câu hỏi của bạn đã được nhận."
+      "answer": "Đây là câu trả lời từ AI agent (mock). Trong production, đây sẽ là response từ OpenAI/Anthropic."
     },
     {
       "id": "bench-01",
@@ -250,7 +250,7 @@
         "tail latency",
         "p99"
       ],
-      "latency_ms": 146.6,
+      "latency_ms": 134.3,
       "cost_usd": 2.01e-05,
       "tokens": 62,
       "agent_version": "v1",
@@ -265,7 +265,7 @@
         "đáp án",
         "regression"
       ],
-      "latency_ms": 145.7,
+      "latency_ms": 163.7,
       "cost_usd": 1.695e-05,
       "tokens": 56,
       "agent_version": "v1",
@@ -281,7 +281,7 @@
         "scrape",
         "/metrics"
       ],
-      "latency_ms": 153.4,
+      "latency_ms": 132.2,
       "cost_usd": 1.785e-05,
       "tokens": 59,
       "agent_version": "v1",
@@ -297,7 +297,7 @@
         "lên xuống",
         "bucket"
       ],
-      "latency_ms": 140.3,
+      "latency_ms": 164.9,
       "cost_usd": 1.815e-05,
       "tokens": 61,
       "agent_version": "v1",
@@ -312,7 +312,7 @@
         "time series",
         "ram"
       ],
-      "latency_ms": 171.2,
+      "latency_ms": 141.4,
       "cost_usd": 1.845e-05,
       "tokens": 63,
       "agent_version": "v1",
@@ -328,7 +328,7 @@
         "attributes",
         "thời gian"
       ],
-      "latency_ms": 149.8,
+      "latency_ms": 163.1,
       "cost_usd": 1.965e-05,
       "tokens": 59,
       "agent_version": "v1",
@@ -343,11 +343,11 @@
         "trace",
         "jaeger"
       ],
-      "latency_ms": 163.8,
-      "cost_usd": 1.8e-05,
-      "tokens": 60,
+      "latency_ms": 133.8,
+      "cost_usd": 2.04e-05,
+      "tokens": 64,
       "agent_version": "v1",
-      "answer": "Câu hỏi hay! Điều này phụ thuộc vào kiến trúc hệ thống và yêu cầu cụ thể của bạn."
+      "answer": "Đây là câu trả lời từ AI agent (mock). Trong production, đây sẽ là response từ OpenAI/Anthropic."
     },
     {
       "id": "obs-06",
@@ -359,11 +359,11 @@
         "trace_id",
         "lọc"
       ],
-      "latency_ms": 134.5,
-      "cost_usd": 2.01e-05,
-      "tokens": 62,
+      "latency_ms": 1644.3,
+      "cost_usd": 1.59e-05,
+      "tokens": 55,
       "agent_version": "v1",
-      "answer": "Đây là câu trả lời từ AI agent (mock). Trong production, đây sẽ là response từ OpenAI/Anthropic."
+      "answer": "Tôi là AI agent được deploy lên cloud. Câu hỏi của bạn đã được nhận."
     },
     {
       "id": "slo-01",
@@ -374,11 +374,11 @@
         "sli",
         "100%"
       ],
-      "latency_ms": 147.0,
-      "cost_usd": 1.74e-05,
-      "tokens": 56,
+      "latency_ms": 176.9,
+      "cost_usd": 1.98e-05,
+      "tokens": 60,
       "agent_version": "v1",
-      "answer": "Câu hỏi hay! Điều này phụ thuộc vào kiến trúc hệ thống và yêu cầu cụ thể của bạn."
+      "answer": "Đây là câu trả lời từ AI agent (mock). Trong production, đây sẽ là response từ OpenAI/Anthropic."
     },
     {
       "id": "cost-01",
@@ -390,7 +390,7 @@
         "input",
         "output"
       ],
-      "latency_ms": 151.8,
+      "latency_ms": 173.9,
       "cost_usd": 1.575e-05,
       "tokens": 54,
       "agent_version": "v1",
@@ -406,11 +406,11 @@
         "tự scale",
         "https"
       ],
-      "latency_ms": 147.0,
-      "cost_usd": 1.725e-05,
-      "tokens": 55,
+      "latency_ms": 186.1,
+      "cost_usd": 1.545e-05,
+      "tokens": 52,
       "agent_version": "v1",
-      "answer": "Câu hỏi hay! Điều này phụ thuộc vào kiến trúc hệ thống và yêu cầu cụ thể của bạn."
+      "answer": "Tôi là AI agent được deploy lên cloud. Câu hỏi của bạn đã được nhận."
     }
   ],
   "quality_gate": {

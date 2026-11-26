@@ -143,6 +143,13 @@ class AskRequest(BaseModel):
     user_id: str | None = Field(default=None, max_length=128)
 
 
+@app.get("/")
+def root():
+    """Trang gốc: người mở URL bằng trình duyệt biết service đang chạy và gọi gì tiếp."""
+    return {"service": app.title, "status": "ok",
+            "endpoints": ["GET /health", "GET /ready", "POST /ask (header X-API-Key)"]}
+
+
 @app.get("/health")
 def health():
     """Liveness: process còn chạy là 200, không phụ thuộc Redis."""

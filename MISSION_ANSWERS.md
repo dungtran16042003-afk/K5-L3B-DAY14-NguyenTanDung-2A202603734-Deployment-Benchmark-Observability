@@ -142,8 +142,15 @@ Nhận xét: chú thích trong file ghi agent có 2 replicas nhưng thực tế 
 
 ### Exercise 3.1 / 3.2: Deployment
 
-- URL: *(chưa deploy)*
-- Screenshot: *(chưa có)*
+- Nền tảng: **Railway** (Exercise 3.1), gồm service agent và Redis
+- URL: https://agent-production-db5e1c94.up.railway.app
+- Screenshot: [dashboard](screenshots/dashboard.png), [running](screenshots/running.png), [test](screenshots/test.png)
+- 4 lệnh tự kiểm ở CP6 trả về `200`, `200`, `401`, `200`. Chi tiết trong [DEPLOYMENT.md](DEPLOYMENT.md).
+
+Hai điều gặp khi deploy:
+
+- Railway cấp `PORT=8080`, nên domain phải trỏ vào cổng 8080. App chạy được vì `CMD` đọc biến `PORT`.
+- Health check trong `railway.toml` không được áp vào service (Railway báo kiểu cấu hình này đã deprecated), nên đặt `/health` thẳng trên service rồi deploy lại.
 
 ### So sánh `railway.toml` và `render.yaml`
 
@@ -384,3 +391,4 @@ AI dùng: Claude Code (chạy lệnh và sửa file trực tiếp trên máy). B
 | Part 3 (phần đọc file) | Làm tiếp các phần | AI soạn bảng so sánh cấu hình và mô tả pipeline Cloud Run | *(tự điền)* |
 | Part 6 | Làm tiếp các phần | AI **viết code** trong `app/`, `Dockerfile`, `.dockerignore`, `docker-compose.yml`, `.env.example`, `railway.toml`; chạy script chấm và thử lỗi | *(tự điền)* |
 | Part 7 (7.1–7.3) | Làm tiếp các phần | AI thêm metric, chạy load test và eval, sửa `KNOWLEDGE_BASE`, **soạn** `BENCHMARK_REPORT.md` mục 1–3 | *(tự điền)* |
+| Part 3, deploy | Test lại, push và deploy | Mình đăng nhập Railway; AI tạo project và Redis, đặt biến môi trường, deploy, sửa cổng domain và health check, kiểm tra URL, **soạn** `DEPLOYMENT.md` | *(tự điền)* |

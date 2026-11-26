@@ -1,6 +1,8 @@
 # Cấu hình deploy Railway (chạy `railway up` trong thư mục này)
 # App lắng nghe theo biến PORT do Railway cấp — xử lý trong CMD của Dockerfile.
 # AGENT_API_KEY, REDIS_URL... đặt trên Railway, không ghi vào file.
+# Railway đã deprecated cấu hình bằng file: nếu service không tự nhận các giá trị dưới đây,
+# đặt cùng giá trị trong phần Settings của service.
 
 [build]
 builder = "DOCKERFILE"
